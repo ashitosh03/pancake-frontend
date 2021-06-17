@@ -4,7 +4,7 @@ import { useWeb3React } from '@web3-react/core'
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'contexts/Localization'
 import useAllEarnings from 'hooks/useAllEarnings'
-import { usePriceCakeBusd } from 'state/hooks'
+import { usePriceLacBusd } from 'state/hooks'
 import styled from 'styled-components'
 import { DEFAULT_TOKEN_DECIMAL } from 'config'
 import CardValue from './CardValue'
@@ -14,7 +14,7 @@ const Block = styled.div`
   margin-bottom: 24px;
 `
 
-const CakeHarvestBalance = () => {
+const LacHarvestBalance = () => {
   const { t } = useTranslation()
   const { account } = useWeb3React()
   const allEarnings = useAllEarnings()
@@ -25,8 +25,8 @@ const CakeHarvestBalance = () => {
     }
     return accum + earningNumber.div(DEFAULT_TOKEN_DECIMAL).toNumber()
   }, 0)
-  const cakePriceBusd = usePriceCakeBusd()
-  const earningsBusd = new BigNumber(earningsSum).multipliedBy(cakePriceBusd).toNumber()
+  const lacPriceBusd = usePriceLacBusd()
+  const earningsBusd = new BigNumber(earningsSum).multipliedBy(lacPriceBusd).toNumber()
 
   if (!account) {
     return (
@@ -39,9 +39,9 @@ const CakeHarvestBalance = () => {
   return (
     <Block>
       <CardValue value={earningsSum} lineHeight="1.5" />
-      {cakePriceBusd.gt(0) && <CardBusdValue value={earningsBusd} />}
+      {lacPriceBusd.gt(0) && <CardBusdValue value={earningsBusd} />}
     </Block>
   )
 }
 
-export default CakeHarvestBalance
+export default LacHarvestBalance

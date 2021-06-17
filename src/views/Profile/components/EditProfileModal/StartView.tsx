@@ -5,10 +5,10 @@ import { useWeb3React } from '@web3-react/core'
 import { Button, Flex, Text, InjectedModalProps } from '@pancakeswap/uikit'
 import { getFullDisplayBalance } from 'utils/formatBalance'
 import { getPancakeProfileAddress } from 'utils/addressHelpers'
-import { useCake } from 'hooks/useContract'
+import { useLac } from 'hooks/useContract'
 import { useTranslation } from 'contexts/Localization'
 import useGetProfileCosts from 'hooks/useGetProfileCosts'
-import useHasCakeBalance from 'hooks/useHasCakeBalance'
+import useHasLacBalance from 'hooks/useHasCakeBalance'
 import { useProfile } from 'state/hooks'
 import { UseEditProfileResponse } from './reducer'
 import ProfileAvatar from '../ProfileAvatar'
@@ -43,13 +43,13 @@ const AvatarWrapper = styled.div`
 const StartPage: React.FC<StartPageProps> = ({ goToApprove, goToChange, goToRemove, onDismiss }) => {
   const [needsApproval, setNeedsApproval] = useState(null)
   const { profile } = useProfile()
-  const { numberCakeToUpdate, numberCakeToReactivate } = useGetProfileCosts()
-  const minimumCakeRequired = profile.isActive ? numberCakeToUpdate : numberCakeToReactivate
-  const hasMinimumCakeRequired = useHasCakeBalance(minimumCakeRequired)
+  const { numberLacToUpdate, numberLacToReactivate } = useGetProfileCosts()
+  const minimumLacRequired = profile.isActive ? numberLacToUpdate : numberLacToReactivate
+  const hasMinimumLacRequired = useHasLacBalance(minimumLacRequired)
   const { t } = useTranslation()
   const { account } = useWeb3React()
-  const cakeContract = useCake()
-  const cost = profile.isActive ? numberCakeToUpdate : numberCakeToReactivate
+  const lacContract = useLac()
+  const cost = profile.isActive ? numberLacToUpdate : numberLacToReactivate
 
   /**
    * Check if the wallet has the required CAKE allowance to change their profile pic or reactivate
@@ -57,7 +57,7 @@ const StartPage: React.FC<StartPageProps> = ({ goToApprove, goToChange, goToRemo
    */
   useEffect(() => {
     const checkApprovalStatus = async () => {
-      const response = await cakeContract.methods.allowance(account, getPancakeProfileAddress()).call()
+      const response = await lacContract.methods.allowance(account, getPancakeProfileAddress()).call()
       const currentAllowance = new BigNumber(response)
       setNeedsApproval(currentAllowance.lt(cost))
     }
@@ -65,7 +65,7 @@ const StartPage: React.FC<StartPageProps> = ({ goToApprove, goToChange, goToRemo
     if (account) {
       checkApprovalStatus()
     }
-  }, [account, cost, setNeedsApproval, cakeContract])
+  }, [account, cost, setNeedsApproval, lacContract])
 
   if (!profile) {
     return null
@@ -78,8 +78,8 @@ const StartPage: React.FC<StartPageProps> = ({ goToApprove, goToChange, goToRemo
       </AvatarWrapper>
       <Flex alignItems="center" style={{ height: '48px' }} justifyContent="center">
         <Text as="p" color="failure">
-          {!hasMinimumCakeRequired &&
-            t('%minimum% CAKE required to change profile pic', { minimum: getFullDisplayBalance(minimumCakeRequired) })}
+          {!hasMinimumLacRequired &&
+            t('%minimum% CAKE required to change profile pic', { minimum: getFullDisplayBalance(minimumLacRequired) })}
         </Text>
       </Flex>
       {profile.isActive ? (
@@ -88,7 +88,7 @@ const StartPage: React.FC<StartPageProps> = ({ goToApprove, goToChange, goToRemo
             width="100%"
             mb="8px"
             onClick={needsApproval === true ? goToApprove : goToChange}
-            disabled={!hasMinimumCakeRequired || needsApproval === null}
+            disabled={!hasMinimumLacRequired || needsApproval === null}
           >
             {t('Change Profile Pic')}
           </Button>
@@ -101,7 +101,7 @@ const StartPage: React.FC<StartPageProps> = ({ goToApprove, goToChange, goToRemo
           width="100%"
           mb="8px"
           onClick={needsApproval === true ? goToApprove : goToChange}
-          disabled={!hasMinimumCakeRequired || needsApproval === null}
+          disabled={!hasMinimumLacRequired || needsApproval === null}
         >
           {t('Reactivate Profile')}
         </Button>

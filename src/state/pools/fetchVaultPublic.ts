@@ -1,35 +1,35 @@
 import BigNumber from 'bignumber.js'
-import { convertSharesToCake } from 'views/Pools/helpers'
-import { getCakeVaultContract } from 'utils/contractHelpers'
+import { convertSharesToLac } from 'views/Pools/helpers'
+import { getLacVaultContract } from 'utils/contractHelpers'
 import makeBatchRequest from 'utils/makeBatchRequest'
 
-const cakeVaultContract = getCakeVaultContract()
+const lacVaultContract = getLacVaultContract()
 
 export const fetchPublicVaultData = async () => {
   try {
-    const [sharePrice, shares, estimatedCakeBountyReward, totalPendingCakeHarvest] = await makeBatchRequest([
-      cakeVaultContract.methods.getPricePerFullShare().call,
-      cakeVaultContract.methods.totalShares().call,
-      cakeVaultContract.methods.calculateHarvestCakeRewards().call,
-      cakeVaultContract.methods.calculateTotalPendingCakeRewards().call,
+    const [sharePrice, shares, estimatedLacBountyReward, totalPendingLacHarvest] = await makeBatchRequest([
+      lacVaultContract.methods.getPricePerFullShare().call,
+      lacVaultContract.methods.totalShares().call,
+      lacVaultContract.methods.calculateHarvestLacRewards().call,
+      lacVaultContract.methods.calculateTotalPendingLacRewards().call,
     ])
     const totalSharesAsBigNumber = new BigNumber(shares as string)
     const sharePriceAsBigNumber = new BigNumber(sharePrice as string)
-    const totalCakeInVaultEstimate = convertSharesToCake(totalSharesAsBigNumber, sharePriceAsBigNumber)
+    const totalLacInVaultEstimate = convertSharesToLac(totalSharesAsBigNumber, sharePriceAsBigNumber)
     return {
       totalShares: totalSharesAsBigNumber.toJSON(),
       pricePerFullShare: sharePriceAsBigNumber.toJSON(),
-      totalCakeInVault: totalCakeInVaultEstimate.cakeAsBigNumber.toJSON(),
-      estimatedCakeBountyReward: new BigNumber(estimatedCakeBountyReward as string).toJSON(),
-      totalPendingCakeHarvest: new BigNumber(totalPendingCakeHarvest as string).toJSON(),
+      totalLacInVault: totalLacInVaultEstimate.lacAsBigNumber.toJSON(),
+      estimatedLacBountyReward: new BigNumber(estimatedLacBountyReward as string).toJSON(),
+      totalPendingLacHarvest: new BigNumber(totalPendingLacHarvest as string).toJSON(),
     }
   } catch (error) {
     return {
       totalShares: null,
       pricePerFullShare: null,
-      totalCakeInVault: null,
-      estimatedCakeBountyReward: null,
-      totalPendingCakeHarvest: null,
+      totalLacInVault: null,
+      estimatedLacBountyReward: null,
+      totalPendingLacHarvest: null,
     }
   }
 }
@@ -37,10 +37,10 @@ export const fetchPublicVaultData = async () => {
 export const fetchVaultFees = async () => {
   try {
     const [performanceFee, callFee, withdrawalFee, withdrawalFeePeriod] = await makeBatchRequest([
-      cakeVaultContract.methods.performanceFee().call,
-      cakeVaultContract.methods.callFee().call,
-      cakeVaultContract.methods.withdrawFee().call,
-      cakeVaultContract.methods.withdrawFeePeriod().call,
+      lacVaultContract.methods.performanceFee().call,
+      lacVaultContract.methods.callFee().call,
+      lacVaultContract.methods.withdrawFee().call,
+      lacVaultContract.methods.withdrawFeePeriod().call,
     ])
     return {
       performanceFee: parseInt(performanceFee as string, 10),

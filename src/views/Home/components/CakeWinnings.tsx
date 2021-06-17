@@ -1,6 +1,6 @@
 import React from 'react'
 import { getBalanceNumber } from 'utils/formatBalance'
-import { usePriceCakeBusd } from 'state/hooks'
+import { usePriceLacBusd } from 'state/hooks'
 import { Text } from '@pancakeswap/uikit'
 import { useWeb3React } from '@web3-react/core'
 import { BigNumber } from 'bignumber.js'
@@ -13,16 +13,16 @@ const Block = styled.div`
   margin-bottom: 24px;
 `
 
-interface CakeWinningsProps {
+interface LacWinningsProps {
   claimAmount: BigNumber
 }
 
-const CakeWinnings: React.FC<CakeWinningsProps> = ({ claimAmount }) => {
+const LacWinnings: React.FC<LacWinningsProps> = ({ claimAmount }) => {
   const { t } = useTranslation()
   const { account } = useWeb3React()
-  const cakeAmount = getBalanceNumber(claimAmount)
-  const cakePriceBusd = usePriceCakeBusd()
-  const claimAmountBusd = new BigNumber(cakeAmount).multipliedBy(cakePriceBusd).toNumber()
+  const lacAmount = getBalanceNumber(claimAmount)
+  const lacPriceBusd = usePriceLacBusd()
+  const claimAmountBusd = new BigNumber(lacAmount).multipliedBy(lacPriceBusd).toNumber()
 
   if (!account) {
     return (
@@ -34,10 +34,10 @@ const CakeWinnings: React.FC<CakeWinningsProps> = ({ claimAmount }) => {
 
   return (
     <Block>
-      <CardValue value={cakeAmount} lineHeight="1.5" />
-      {cakePriceBusd.gt(0) && <CardBusdValue value={claimAmountBusd} decimals={2} />}
+      <CardValue value={lacAmount} lineHeight="1.5" />
+      {lacPriceBusd.gt(0) && <CardBusdValue value={claimAmountBusd} decimals={2} />}
     </Block>
   )
 }
 
-export default CakeWinnings
+export default LacWinnings

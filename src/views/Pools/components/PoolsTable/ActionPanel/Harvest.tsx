@@ -2,12 +2,12 @@ import React from 'react'
 import { Button, Text, useModal, Flex, TooltipText, useTooltip, Skeleton } from '@pancakeswap/uikit'
 import BigNumber from 'bignumber.js'
 import { useWeb3React } from '@web3-react/core'
-import { getCakeVaultEarnings } from 'views/Pools/helpers'
+import { getLacVaultEarnings } from 'views/Pools/helpers'
 import { PoolCategory } from 'config/constants/types'
 import { formatNumber, getBalanceNumber, getFullDisplayBalance } from 'utils/formatBalance'
 import { useTranslation } from 'contexts/Localization'
 import Balance from 'components/Balance'
-import { useCakeVault } from 'state/hooks'
+import { useLacVault } from 'state/hooks'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { Pool } from 'state/types'
 
@@ -44,19 +44,19 @@ const HarvestAction: React.FunctionComponent<HarvestActionProps> = ({
 
   // Auto CAKE vault calculations
   const {
-    userData: { cakeAtLastUserAction, userShares },
+    userData: { lacAtLastUserAction, userShares },
     pricePerFullShare,
     fees: { performanceFee },
-  } = useCakeVault()
-  const { hasAutoEarnings, autoCakeToDisplay, autoUsdToDisplay } = getCakeVaultEarnings(
+  } = useLacVault()
+  const { hasAutoEarnings, autoLacToDisplay, autoUsdToDisplay } = getLacVaultEarnings(
     account,
-    cakeAtLastUserAction,
+    lacAtLastUserAction,
     userShares,
     pricePerFullShare,
     earningTokenPrice,
   )
 
-  earningTokenBalance = isAutoVault ? autoCakeToDisplay : earningTokenBalance
+  earningTokenBalance = isAutoVault ? autoLacToDisplay : earningTokenBalance
   hasEarnings = isAutoVault ? hasAutoEarnings : hasEarnings
   earningTokenDollarBalance = isAutoVault ? autoUsdToDisplay : earningTokenDollarBalance
 

@@ -7,9 +7,9 @@ import { PoolCategory } from 'config/constants/types'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { formatNumber, getBalanceNumber, getFullDisplayBalance } from 'utils/formatBalance'
 import Balance from 'components/Balance'
-import { useCakeVault } from 'state/hooks'
+import { useLacVault } from 'state/hooks'
 import { useTranslation } from 'contexts/Localization'
-import { getCakeVaultEarnings } from 'views/Pools/helpers'
+import { getLacVaultEarnings } from 'views/Pools/helpers'
 import BaseCell, { CellContent } from './BaseCell'
 import CollectModal from '../../PoolCard/Modals/CollectModal'
 
@@ -34,7 +34,7 @@ const EarningsCell: React.FC<EarningsCellProps> = ({ pool, account, userDataLoad
   const { t } = useTranslation()
   const { isXs, isSm } = useMatchBreakpoints()
   const { sousId, earningToken, poolCategory, userData, earningTokenPrice, isAutoVault } = pool
-  const isManualCakePool = sousId === 0
+  const isManualLacPool = sousId === 0
 
   const earnings = userData?.pendingReward ? new BigNumber(userData.pendingReward) : BIG_ZERO
   // These will be reassigned later if its Auto CAKE vault
@@ -48,12 +48,12 @@ const EarningsCell: React.FC<EarningsCellProps> = ({ pool, account, userDataLoad
 
   // Auto CAKE vault calculations
   const {
-    userData: { cakeAtLastUserAction, userShares, lastUserActionTime },
+    userData: { lacAtLastUserAction, userShares, lastUserActionTime },
     pricePerFullShare,
-  } = useCakeVault()
-  const { hasAutoEarnings, autoCakeToDisplay, autoUsdToDisplay } = getCakeVaultEarnings(
+  } = useLacVault()
+  const { hasAutoEarnings, autoLacToDisplay, autoUsdToDisplay } = getLacVaultEarnings(
     account,
-    cakeAtLastUserAction,
+    lacAtLastUserAction,
     userShares,
     pricePerFullShare,
     earningTokenPrice,
@@ -64,13 +64,13 @@ const EarningsCell: React.FC<EarningsCellProps> = ({ pool, account, userDataLoad
   const dateStringToDisplay = dateTimeLastAction.toLocaleString()
 
   const labelText = isAutoVault ? t('Recent CAKE profit') : t('%asset% Earned', { asset: earningToken.symbol })
-  earningTokenBalance = isAutoVault ? autoCakeToDisplay : earningTokenBalance
+  earningTokenBalance = isAutoVault ? autoLacToDisplay : earningTokenBalance
   hasEarnings = isAutoVault ? hasAutoEarnings : hasEarnings
   earningTokenDollarBalance = isAutoVault ? autoUsdToDisplay : earningTokenDollarBalance
 
   const { targetRef, tooltip, tooltipVisible } = useTooltip(
     <>
-      <Balance fontSize="16px" value={autoCakeToDisplay} decimals={3} bold unit=" CAKE" />
+      <Balance fontSize="16px" value={autoLacToDisplay} decimals={3} bold unit=" CAKE" />
       <Balance fontSize="16px" value={autoUsdToDisplay} decimals={2} bold prefix="~$" />
       {t('Earned since your last action')}
       <Text>{dateStringToDisplay}</Text>
@@ -86,7 +86,7 @@ const EarningsCell: React.FC<EarningsCellProps> = ({ pool, account, userDataLoad
       earningsDollarValue={earningsDollarValue}
       sousId={sousId}
       isBnbPool={isBnbPool}
-      isCompoundPool={isManualCakePool}
+      isCompoundPool={isManualLacPool}
     />,
   )
 

@@ -2,8 +2,8 @@ import React from 'react'
 import { Flex, Text } from '@pancakeswap/uikit'
 import { useWeb3React } from '@web3-react/core'
 import { useTranslation } from 'contexts/Localization'
-import { useCakeVault, usePriceCakeBusd } from 'state/hooks'
-import { getCakeVaultEarnings } from 'views/Pools/helpers'
+import { useLacVault, usePriceLacBusd } from 'state/hooks'
+import { getLacVaultEarnings } from 'views/Pools/helpers'
 import RecentCakeProfitBalance from './RecentCakeProfitBalance'
 
 const RecentCakeProfitCountdownRow = () => {
@@ -11,15 +11,15 @@ const RecentCakeProfitCountdownRow = () => {
   const { account } = useWeb3React()
   const {
     pricePerFullShare,
-    userData: { cakeAtLastUserAction, userShares, lastUserActionTime },
-  } = useCakeVault()
-  const cakePriceBusd = usePriceCakeBusd()
-  const { hasAutoEarnings, autoCakeToDisplay, autoUsdToDisplay } = getCakeVaultEarnings(
+    userData: { lacAtLastUserAction, userShares, lastUserActionTime },
+  } = useLacVault()
+  const lacPriceBusd = usePriceLacBusd()
+  const { hasAutoEarnings, autoLacToDisplay, autoUsdToDisplay } = getLacVaultEarnings(
     account,
-    cakeAtLastUserAction,
+    lacAtLastUserAction,
     userShares,
     pricePerFullShare,
-    cakePriceBusd.toNumber(),
+    lacPriceBusd.toNumber(),
   )
 
   const lastActionInMs = lastUserActionTime && parseInt(lastUserActionTime) * 1000
@@ -31,7 +31,7 @@ const RecentCakeProfitCountdownRow = () => {
       <Text fontSize="14px">{`${t('Recent CAKE profit')}:`}</Text>
       {hasAutoEarnings && (
         <RecentCakeProfitBalance
-          cakeToDisplay={autoCakeToDisplay}
+          lacToDisplay={autoLacToDisplay}
           dollarValueToDisplay={autoUsdToDisplay}
           dateStringToDisplay={dateStringToDisplay}
         />

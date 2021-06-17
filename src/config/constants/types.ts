@@ -23,7 +23,7 @@ export type IfoStatus = 'idle' | 'coming_soon' | 'live' | 'finished'
 interface IfoPoolInfo {
   saleAmount: string
   raiseAmount: string
-  cakeToBurn: string
+  lacToBurn: string
   distributionRatio: number // Range [0-1]
 }
 

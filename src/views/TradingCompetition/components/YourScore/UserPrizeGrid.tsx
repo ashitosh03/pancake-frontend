@@ -12,7 +12,7 @@ import {
 } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { UserTradingInformationProps } from '../../types'
-import { useCompetitionCakeRewards, getRewardGroupAchievements } from '../../helpers'
+import { useCompetitionLacRewards, getRewardGroupAchievements } from '../../helpers'
 import { BoldTd, Td, StyledPrizeTable } from '../StyledPrizeTable'
 
 const StyledThead = styled.thead`
@@ -23,8 +23,8 @@ const UserPrizeGrid: React.FC<{ userTradingInformation?: UserTradingInformationP
   userTradingInformation,
 }) => {
   const { t } = useTranslation()
-  const { userRewardGroup, userCakeRewards, userPointReward, canClaimNFT } = userTradingInformation
-  const { cakeReward, dollarValueOfCakeReward } = useCompetitionCakeRewards(userCakeRewards)
+  const { userRewardGroup, userLacRewards, userPointReward, canClaimNFT } = userTradingInformation
+  const { lacReward, dollarValueOfLacReward } = useCompetitionLacRewards(userLacRewards)
   const { champion, teamPlayer } = getRewardGroupAchievements(userRewardGroup)
 
   return (
@@ -40,10 +40,10 @@ const UserPrizeGrid: React.FC<{ userTradingInformation?: UserTradingInformationP
         <tr>
           <BoldTd>
             <Flex flexDirection="column">
-              <Text bold>{cakeReward.toFixed(2)}</Text>
-              {dollarValueOfCakeReward ? (
+              <Text bold>{lacReward.toFixed(2)}</Text>
+              {dollarValueOfLacReward ? (
                 <Text fontSize="12px" color="textSubtle">
-                  ~{dollarValueOfCakeReward} USD
+                  ~{dollarValueOfLacReward} USD
                 </Text>
               ) : (
                 <Skeleton height={24} width={80} />

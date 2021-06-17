@@ -1,7 +1,7 @@
 import { AbiItem } from 'web3-utils'
 import poolsConfig from 'config/constants/pools'
 import masterChefABI from 'config/abi/masterchef.json'
-import sousChefABI from 'config/abi/sousChef.json'
+import sousChefABI from 'config/abi/sousChefV2.json'
 import erc20ABI from 'config/abi/erc20.json'
 import multicall from 'utils/multicall'
 import { getAddress, getMasterChefAddress } from 'utils/addressHelpers'
@@ -59,7 +59,11 @@ export const fetchUserStakeBalances = async (account) => {
     name: 'userInfo',
     params: [account],
   }))
+
+  console.log('calls: ', ...calls)
+
   const userInfo = await multicall(sousChefABI, calls)
+
   const stakedBalances = nonMasterPools.reduce(
     (acc, pool, index) => ({
       ...acc,
@@ -90,7 +94,7 @@ export const fetchUserPendingRewards = async (account) => {
   )
 
   // Cake / Cake pool
-  const pendingReward = await masterChefContract.methods.pendingCake('0', account).call()
+  const pendingReward = await masterChefContract.methods.pendingLac('0', account).call()
 
   return { ...pendingRewards, 0: new BigNumber(pendingReward).toJSON() }
 }

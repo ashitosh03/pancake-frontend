@@ -4,7 +4,7 @@ import { ethers } from 'ethers'
 import { Pair, TokenAmount, Token } from '@pancakeswap-libs/sdk'
 import { getLpContract, getMasterchefContract } from 'utils/contractHelpers'
 import farms from 'config/constants/farms'
-import { getAddress, getCakeAddress } from 'utils/addressHelpers'
+import { getAddress, getLacAddress } from 'utils/addressHelpers'
 import tokens from 'config/constants/tokens'
 import pools from 'config/constants/pools'
 import sousChefABI from 'config/abi/sousChef.json'
@@ -132,37 +132,37 @@ export const soushHarvestBnb = async (sousChefContract, account) => {
 }
 
 const chainId = parseInt(process.env.REACT_APP_CHAIN_ID, 10)
-const cakeBnbPid = 251
-const cakeBnbFarm = farms.find((farm) => farm.pid === cakeBnbPid)
+const lacBnbPid = 1
+const lacBnbFarm = farms.find((farm) => farm.pid === lacBnbPid)
 
-const CAKE_TOKEN = new Token(chainId, getCakeAddress(), 18)
+const CAKE_TOKEN = new Token(chainId, getLacAddress(), 18)
 const WBNB_TOKEN = new Token(chainId, tokens.wbnb.address[chainId], 18)
-const CAKE_BNB_TOKEN = new Token(chainId, getAddress(cakeBnbFarm.lpAddresses), 18)
+const CAKE_BNB_TOKEN = new Token(chainId, getAddress(lacBnbFarm.lpAddresses), 18)
 
 /**
  * Returns the total CAKE staked in the CAKE-BNB LP
  */
-export const getUserStakeInCakeBnbLp = async (account: string, block?: number) => {
+export const getUserStakeInLacBnbLp = async (account: string, block?: number) => {
   try {
     const archivedWeb3 = getWeb3WithArchivedNodeProvider()
     const masterContract = getMasterchefContract(archivedWeb3)
-    const cakeBnbContract = getLpContract(getAddress(cakeBnbFarm.lpAddresses), archivedWeb3)
-    const totalSupplyLP = await cakeBnbContract.methods.totalSupply().call(undefined, block)
-    const reservesLP = await cakeBnbContract.methods.getReserves().call(undefined, block)
-    const cakeBnbBalance = await masterContract.methods.userInfo(cakeBnbPid, account).call(undefined, block)
+    const lacBnbContract = getLpContract(getAddress(lacBnbFarm.lpAddresses), archivedWeb3)
+    const totalSupplyLP = await lacBnbContract.methods.totalSupply().call(undefined, block)
+    const reservesLP = await lacBnbContract.methods.getReserves().call(undefined, block)
+    const lacBnbBalance = await masterContract.methods.userInfo(lacBnbPid, account).call(undefined, block)
 
     const pair: Pair = new Pair(
       new TokenAmount(CAKE_TOKEN, reservesLP._reserve0.toString()),
       new TokenAmount(WBNB_TOKEN, reservesLP._reserve1.toString()),
     )
-    const cakeLPBalance = pair.getLiquidityValue(
+    const lacLPBalance = pair.getLiquidityValue(
       pair.token0,
       new TokenAmount(CAKE_BNB_TOKEN, totalSupplyLP.toString()),
-      new TokenAmount(CAKE_BNB_TOKEN, cakeBnbBalance.amount.toString()),
+      new TokenAmount(CAKE_BNB_TOKEN, lacBnbBalance.amount.toString()),
       false,
     )
 
-    return new BigNumber(cakeLPBalance.toSignificant(18))
+    return new BigNumber(lacLPBalance.toSignificant(18))
   } catch (error) {
     console.error(`CAKE-BNB LP error: ${error}`)
     return BIG_ZERO
@@ -170,9 +170,9 @@ export const getUserStakeInCakeBnbLp = async (account: string, block?: number) =
 }
 
 /**
- * Gets the cake staked in the main pool
+ * Gets the lac staked in the main pool
  */
-export const getUserStakeInCakePool = async (account: string, block?: number) => {
+export const getUserStakeInLacPool = async (account: string, block?: number) => {
   try {
     const archivedWeb3 = getWeb3WithArchivedNodeProvider()
     const masterContract = getMasterchefContract(archivedWeb3)

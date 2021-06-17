@@ -3,28 +3,23 @@ import { Pool } from 'state/types'
 import { getRoi, tokenEarnedPerThousandDollarsCompounding } from 'utils/compoundApyHelpers'
 import { getBalanceNumber, getFullDisplayBalance, getDecimalAmount } from 'utils/formatBalance'
 
-export const convertSharesToCake = (
+export const convertSharesToLac = (
   shares: BigNumber,
-  cakePerFullShare: BigNumber,
+  lacPerFullShare: BigNumber,
   decimals = 18,
   decimalsToRound = 3,
 ) => {
-  const sharePriceNumber = getBalanceNumber(cakePerFullShare, decimals)
-  const amountInCake = new BigNumber(shares.multipliedBy(sharePriceNumber))
-  const cakeAsNumberBalance = getBalanceNumber(amountInCake, decimals)
-  const cakeAsBigNumber = getDecimalAmount(new BigNumber(cakeAsNumberBalance), decimals)
-  const cakeAsDisplayBalance = getFullDisplayBalance(amountInCake, decimals, decimalsToRound)
-  return { cakeAsNumberBalance, cakeAsBigNumber, cakeAsDisplayBalance }
+  const sharePriceNumber = getBalanceNumber(lacPerFullShare, decimals)
+  const amountInLac = new BigNumber(shares.multipliedBy(sharePriceNumber))
+  const lacAsNumberBalance = getBalanceNumber(amountInLac, decimals)
+  const lacAsBigNumber = getDecimalAmount(new BigNumber(lacAsNumberBalance), decimals)
+  const lacAsDisplayBalance = getFullDisplayBalance(amountInLac, decimals, decimalsToRound)
+  return { lacAsNumberBalance, lacAsBigNumber, lacAsDisplayBalance }
 }
 
-export const convertCakeToShares = (
-  cake: BigNumber,
-  cakePerFullShare: BigNumber,
-  decimals = 18,
-  decimalsToRound = 3,
-) => {
-  const sharePriceNumber = getBalanceNumber(cakePerFullShare, decimals)
-  const amountInShares = new BigNumber(cake.dividedBy(sharePriceNumber))
+export const convertLacToShares = (lac: BigNumber, lacPerFullShare: BigNumber, decimals = 18, decimalsToRound = 3) => {
+  const sharePriceNumber = getBalanceNumber(lacPerFullShare, decimals)
+  const amountInShares = new BigNumber(lac.dividedBy(sharePriceNumber))
   const sharesAsNumberBalance = getBalanceNumber(amountInShares, decimals)
   const sharesAsBigNumber = getDecimalAmount(new BigNumber(sharesAsNumberBalance), decimals)
   const sharesAsDisplayBalance = getFullDisplayBalance(amountInShares, decimals, decimalsToRound)
@@ -62,22 +57,21 @@ export const getAprData = (pool: Pool, performanceFee: number) => {
   return { apr, isHighValueToken, roundingDecimals, compoundFrequency }
 }
 
-export const getCakeVaultEarnings = (
+export const getLacVaultEarnings = (
   account: string,
-  cakeAtLastUserAction: BigNumber,
+  lacAtLastUserAction: BigNumber,
   userShares: BigNumber,
   pricePerFullShare: BigNumber,
   earningTokenPrice: number,
 ) => {
-  const hasAutoEarnings =
-    account && cakeAtLastUserAction && cakeAtLastUserAction.gt(0) && userShares && userShares.gt(0)
-  const { cakeAsBigNumber } = convertSharesToCake(userShares, pricePerFullShare)
-  const autoCakeProfit = cakeAsBigNumber.minus(cakeAtLastUserAction)
-  const autoCakeToDisplay = autoCakeProfit.gte(0) ? getBalanceNumber(autoCakeProfit, 18) : 0
+  const hasAutoEarnings = account && lacAtLastUserAction && lacAtLastUserAction.gt(0) && userShares && userShares.gt(0)
+  const { lacAsBigNumber } = convertSharesToLac(userShares, pricePerFullShare)
+  const autoLacProfit = lacAsBigNumber.minus(lacAtLastUserAction)
+  const autoLacToDisplay = autoLacProfit.gte(0) ? getBalanceNumber(autoLacProfit, 18) : 0
 
-  const autoUsdProfit = autoCakeProfit.times(earningTokenPrice)
+  const autoUsdProfit = autoLacProfit.times(earningTokenPrice)
   const autoUsdToDisplay = autoUsdProfit.gte(0) ? getBalanceNumber(autoUsdProfit, 18) : 0
-  return { hasAutoEarnings, autoCakeToDisplay, autoUsdToDisplay }
+  return { hasAutoEarnings, autoLacToDisplay, autoUsdToDisplay }
 }
 
 export const getPoolBlockInfo = (pool: Pool, currentBlock: number) => {

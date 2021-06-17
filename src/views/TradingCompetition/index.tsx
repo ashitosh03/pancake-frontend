@@ -103,7 +103,7 @@ const TradingCompetition = () => {
     hasRegistered: false,
     hasUserClaimed: false,
     userRewardGroup: '0',
-    userCakeRewards: '0',
+    userLacRewards: '0',
     userPointReward: '0',
     canClaimNFT: false,
   })
@@ -125,12 +125,12 @@ const TradingCompetition = () => {
   const hasCompetitionEnded =
     currentPhase.state === FINISHED || currentPhase.state === CLAIM || currentPhase.state === OVER
 
-  const { hasUserClaimed, userCakeRewards, userPointReward, canClaimNFT } = userTradingInformation
+  const { hasUserClaimed, userLacRewards, userPointReward, canClaimNFT } = userTradingInformation
 
   const userCanClaimPrizes =
     currentPhase.state === CLAIM &&
     !hasUserClaimed &&
-    (userCakeRewards !== '0' || userPointReward !== '0' || canClaimNFT)
+    (userLacRewards !== '0' || userPointReward !== '0' || canClaimNFT)
   const finishedAndPrizesClaimed = hasCompetitionEnded && account && hasUserClaimed
   const finishedAndNothingToClaim = hasCompetitionEnded && account && !userCanClaimPrizes
 
@@ -154,7 +154,7 @@ const TradingCompetition = () => {
         hasRegistered: user[0],
         hasUserClaimed: user[1],
         userRewardGroup: user[2],
-        userCakeRewards: user[3],
+        userLacRewards: user[3],
         userPointReward: user[4],
         canClaimNFT: user[5],
       }
@@ -168,7 +168,7 @@ const TradingCompetition = () => {
         hasRegistered: false,
         hasUserClaimed: false,
         userRewardGroup: '0',
-        userCakeRewards: '0',
+        userLacRewards: '0',
         userPointReward: '0',
         canClaimNFT: false,
       })

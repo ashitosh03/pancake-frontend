@@ -26,7 +26,10 @@ const CardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) => {
   const { t } = useTranslation()
   const allowance = userData?.allowance ? new BigNumber(userData.allowance) : BIG_ZERO
   const stakingTokenBalance = userData?.stakingTokenBalance ? new BigNumber(userData.stakingTokenBalance) : BIG_ZERO
+  console.log('stakingTokenBalance: ', stakingTokenBalance)
+
   const earnings = userData?.pendingReward ? new BigNumber(userData.pendingReward) : BIG_ZERO
+  console.log('earnings: ', earnings)
   const needsApproval = !allowance.gt(0) && !isBnbPool
   const isStaked = stakedBalance.gt(0)
   const isLoading = !userData

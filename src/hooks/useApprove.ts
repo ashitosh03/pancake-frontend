@@ -7,7 +7,7 @@ import { useAppDispatch } from 'state'
 import { updateUserAllowance } from 'state/actions'
 import { approve } from 'utils/callHelpers'
 import { useTranslation } from 'contexts/Localization'
-import { useMasterchef, useCake, useSousChef, useLottery, useCakeVaultContract } from './useContract'
+import { useMasterchef, useLac, useSousChef, useLottery, useLacVaultContract } from './useContract'
 import useToast from './useToast'
 import useLastUpdated from './useLastUpdated'
 
@@ -68,12 +68,12 @@ export const useVaultApprove = (setLastUpdated: () => void) => {
   const [requestedApproval, setRequestedApproval] = useState(false)
   const { t } = useTranslation()
   const { toastSuccess, toastError } = useToast()
-  const cakeVaultContract = useCakeVaultContract()
-  const cakeContract = useCake()
+  const lacVaultContract = useLacVaultContract()
+  const lacContract = useLac()
 
   const handleApprove = () => {
-    cakeContract.methods
-      .approve(cakeVaultContract.options.address, ethers.constants.MaxUint256)
+    lacContract.methods
+      .approve(lacVaultContract.options.address, ethers.constants.MaxUint256)
       .send({ from: account })
       .on('sending', () => {
         setRequestedApproval(true)
@@ -96,13 +96,13 @@ export const useVaultApprove = (setLastUpdated: () => void) => {
 export const useCheckVaultApprovalStatus = () => {
   const [isVaultApproved, setIsVaultApproved] = useState(false)
   const { account } = useWeb3React()
-  const cakeContract = useCake()
-  const cakeVaultContract = useCakeVaultContract()
+  const lacContract = useLac()
+  const lacVaultContract = useLacVaultContract()
   const { lastUpdated, setLastUpdated } = useLastUpdated()
   useEffect(() => {
     const checkApprovalStatus = async () => {
       try {
-        const response = await cakeContract.methods.allowance(account, cakeVaultContract.options.address).call()
+        const response = await lacContract.methods.allowance(account, lacVaultContract.options.address).call()
         const currentAllowance = new BigNumber(response)
         setIsVaultApproved(currentAllowance.gt(0))
       } catch (error) {
@@ -111,7 +111,7 @@ export const useCheckVaultApprovalStatus = () => {
     }
 
     checkApprovalStatus()
-  }, [account, cakeContract, cakeVaultContract, lastUpdated])
+  }, [account, lacContract, lacVaultContract, lastUpdated])
 
   return { isVaultApproved, setLastUpdated }
 }
@@ -119,17 +119,17 @@ export const useCheckVaultApprovalStatus = () => {
 // Approve the lottery
 export const useLotteryApprove = () => {
   const { account } = useWeb3React()
-  const cakeContract = useCake()
+  const lacContract = useLac()
   const lotteryContract = useLottery()
 
   const handleApprove = useCallback(async () => {
     try {
-      const tx = await approve(cakeContract, lotteryContract, account)
+      const tx = await approve(lacContract, lotteryContract, account)
       return tx
     } catch (e) {
       return false
     }
-  }, [account, cakeContract, lotteryContract])
+  }, [account, lacContract, lotteryContract])
 
   return { onApprove: handleApprove }
 }

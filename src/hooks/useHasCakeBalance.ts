@@ -1,13 +1,13 @@
 import BigNumber from 'bignumber.js'
-import { getCakeAddress } from 'utils/addressHelpers'
+import { getLacAddress } from 'utils/addressHelpers'
 import useTokenBalance from './useTokenBalance'
 
 /**
  * A hook to check if a wallet's CAKE balance is at least the amount passed in
  */
-const useHasCakeBalance = (minimumBalance: BigNumber) => {
-  const { balance: cakeBalance } = useTokenBalance(getCakeAddress())
-  return cakeBalance.gte(minimumBalance)
+const useHasLacBalance = (minimumBalance: BigNumber) => {
+  const { balance: lacBalance } = useTokenBalance(getLacAddress())
+  return lacBalance.gte(minimumBalance)
 }
 
-export default useHasCakeBalance
+export default useHasLacBalance

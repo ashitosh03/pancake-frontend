@@ -11,7 +11,7 @@ import {
   getPancakeRabbitsAddress,
   getBunnyFactoryAddress,
   getBunnySpecialAddress,
-  getCakeAddress,
+  getLacAddress,
   getLotteryAddress,
   getLotteryTicketAddress,
   getLotteryV2Address,
@@ -20,7 +20,7 @@ import {
   getClaimRefundAddress,
   getTradingCompetitionAddress,
   getEasterNftAddress,
-  getCakeVaultAddress,
+  getLacVaultAddress,
   getPredictionsAddress,
   getChainlinkOracleAddress,
 } from 'utils/addressHelpers'
@@ -33,7 +33,7 @@ import bunnySpecialAbi from 'config/abi/bunnySpecial.json'
 import bep20Abi from 'config/abi/erc20.json'
 import erc721Abi from 'config/abi/erc721.json'
 import lpTokenAbi from 'config/abi/lpToken.json'
-import cakeAbi from 'config/abi/cake.json'
+import lacAbi from 'config/abi/cake.json'
 import ifoV1Abi from 'config/abi/ifoV1.json'
 import ifoV2Abi from 'config/abi/ifoV2.json'
 import pointCenterIfo from 'config/abi/pointCenterIfo.json'
@@ -47,7 +47,7 @@ import sousChefBnb from 'config/abi/sousChefBnb.json'
 import claimRefundAbi from 'config/abi/claimRefund.json'
 import tradingCompetitionAbi from 'config/abi/tradingCompetition.json'
 import easterNftAbi from 'config/abi/easterNft.json'
-import cakeVaultAbi from 'config/abi/cakeVault.json'
+import lacVaultAbi from 'config/abi/cakeVault.json'
 import predictionsAbi from 'config/abi/predictions.json'
 import chainlinkOracleAbi from 'config/abi/chainlinkOracle.json'
 import { DEFAULT_GAS_PRICE } from 'config'
@@ -89,8 +89,8 @@ export const getSouschefV2Contract = (id: number, web3?: Web3) => {
 export const getPointCenterIfoContract = (web3?: Web3) => {
   return getContract(pointCenterIfo, getPointCenterIfoAddress(), web3)
 }
-export const getCakeContract = (web3?: Web3) => {
-  return getContract(cakeAbi, getCakeAddress(), web3)
+export const getLacContract = (web3?: Web3) => {
+  return getContract(lacAbi, getLacAddress(), web3)
 }
 export const getProfileContract = (web3?: Web3) => {
   return getContract(profileABI, getPancakeProfileAddress(), web3)
@@ -125,8 +125,8 @@ export const getTradingCompetitionContract = (web3?: Web3) => {
 export const getEasterNftContract = (web3?: Web3) => {
   return getContract(easterNftAbi, getEasterNftAddress(), web3)
 }
-export const getCakeVaultContract = (web3?: Web3) => {
-  return getContract(cakeVaultAbi, getCakeVaultAddress(), web3)
+export const getLacVaultContract = (web3?: Web3) => {
+  return getContract(lacVaultAbi, getLacVaultAddress(), web3)
 }
 export const getPredictionsContract = (web3?: Web3) => {
   return getContract(predictionsAbi, getPredictionsAddress(), web3)

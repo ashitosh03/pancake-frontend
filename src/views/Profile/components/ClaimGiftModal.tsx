@@ -44,7 +44,7 @@ const ClaimGift: React.FC<ClaimGiftProps> = ({ onSuccess, onDismiss }) => {
 
   const handleClick = () => {
     claimRefundContract.methods
-      .getCakeBack()
+      .getLacBack()
       .send({ from: account })
       .on('sending', () => {
         setIsConfirming(true)

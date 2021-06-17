@@ -117,7 +117,7 @@ const PrizesGrid = () => {
                     </Text>
                   </Td>
                   <BoldTd>
-                    {`$${row.cakePrizeInUsd.toLocaleString(undefined, {
+                    {`$${row.lacPrizeInUsd.toLocaleString(undefined, {
                       minimumFractionDigits: 0,
                       maximumFractionDigits: 0,
                     })}`}

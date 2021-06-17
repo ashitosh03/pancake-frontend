@@ -3,11 +3,29 @@ const tokens = {
     symbol: 'BNB',
     projectLink: 'https://www.binance.com/',
   },
-  cake: {
-    symbol: 'CAKE',
+  // cake: {
+  //   symbol: 'CAKE',
+  //   address: {
+  //     56: '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82',
+  //     97: '0x8C2369a7E67f29106956dB14A9f18CAf37809298',
+  //   },
+  //   decimals: 18,
+  //   projectLink: 'https://pancakeswap.finance/',
+  // },
+  lac: {
+    symbol: 'LAC',
     address: {
-      56: '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82',
-      97: '0xa35062141Fa33BCA92Ce69FeD37D0E8908868AAe',
+      56: '',
+      97: '0x59e80a88EEb8910DA600CEb13670524258832862',
+    },
+    decimals: 18,
+    projectLink: 'https://pancakeswap.finance/',
+  },
+  pma: {
+    symbol: 'PMA',
+    address: {
+      56: '0x43a167b15a6f24913a8b4d35488b36ac15d39200',
+      97: '0x3bCBbbdf732f7530616530D1BB2ffb37DB2408bB',
     },
     decimals: 18,
     projectLink: 'https://pancakeswap.finance/',
@@ -439,7 +457,7 @@ const tokens = {
     symbol: 'wBNB',
     address: {
       56: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c',
-      97: '0xae13d989dac2f0debff460ac112a837c89baa7cd',
+      97: '0x00450fFD24b9B090531B92ec884494dC06f66937',
     },
     decimals: 18,
     projectLink: 'https://pancakeswap.finance/',
@@ -583,7 +601,7 @@ const tokens = {
     symbol: 'SYRUP',
     address: {
       56: '0x009cF7bC57584b7998236eff51b98A168DceA9B0',
-      97: '0xfE1e507CeB712BDe086f3579d2c03248b2dB77f9',
+      97: '0x4D3B3f8E3A16eFE3873aF1cb47e9D9a51a41Cc80',
     },
     decimals: 18,
     projectLink: 'https://pancakeswap.finance/',
@@ -610,7 +628,7 @@ const tokens = {
     symbol: 'BUSD',
     address: {
       56: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
-      97: '',
+      97: '0x8391E6A5101a2cb166c4d853b8e1588077ca0ac9',
     },
     decimals: 18,
     projectLink: 'https://www.paxos.com/busd/',
@@ -835,7 +853,7 @@ const tokens = {
     symbol: 'BAKE',
     address: {
       56: '0xE02dF9e3e622DeBdD69fb838bB799E3F168902c5',
-      97: '0xE02dF9e3e622DeBdD69fb838bB799E3F168902c5',
+      97: '0x275c59E3289459d9dc40b95236364BfCca68805b',
     },
     decimals: 18,
     projectLink: 'https://www.bakeryswap.org/',
@@ -1486,52 +1504,7 @@ const tokens = {
       97: '',
     },
     decimals: 18,
-    projectLink: 'https://www.confluxnetwork.org/',
-  },
-  mx: {
-    symbol: 'MX',
-    address: {
-      56: '0x9f882567a62a5560d147d64871776eea72df41d3',
-      97: '',
-    },
-    decimals: 18,
-    projectLink: 'https://www.mxc.com/',
-  },
-  ata: {
-    symbol: 'ATA',
-    address: {
-      56: '0xa2120b9e674d3fc3875f415a7df52e382f141225',
-      97: '',
-    },
-    decimals: 18,
-    projectLink: 'https://www.ata.network/',
-  },
-  mbox: {
-    symbol: 'MBOX',
-    address: {
-      56: '0x3203c9E46cA618C8C1cE5dC67e7e9D75f5da2377',
-      97: '',
-    },
-    decimals: 18,
-    projectLink: 'https://www.mobox.io/#/',
-  },
-  boring: {
-    symbol: 'BORING',
-    address: {
-      56: '0xffEecbf8D7267757c2dc3d13D730E97E15BfdF7F',
-      97: '',
-    },
-    decimals: 18,
-    projectLink: 'https://www.boringdao.com/',
-  },
-  marsh: {
-    symbol: 'MARSH',
-    address: {
-      56: '0x2FA5dAF6Fe0708fBD63b1A7D1592577284f52256',
-      97: '',
-    },
-    decimals: 18,
-    projectLink: 'https://unmarshal.io/',
+    projectLink: 'https://www.confluxnetwork.org/ ',
   },
 }
 

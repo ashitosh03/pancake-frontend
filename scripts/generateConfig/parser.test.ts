@@ -110,7 +110,7 @@ describe('Parser', () => {
         launchTime: '10:00:00',
         saleAmount: '100000000',
         raiseAmount: 1000000,
-        cakeToBurn: 500000,
+        lacToBurn: 500000,
         projectSiteUrl: 'https://blink.wink.org',
         currency: 'CAKE-BNB LP',
         currencyAddress: '0xA527a61703D82139F8a06Bc30097cC9CAA2df5A6',

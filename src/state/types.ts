@@ -81,23 +81,23 @@ export interface VaultFees {
 export interface VaultUser {
   isLoading: boolean
   userShares: string
-  cakeAtLastUserAction: string
+  lacAtLastUserAction: string
   lastDepositedTime: string
   lastUserActionTime: string
 }
-export interface CakeVault {
+export interface LacVault {
   totalShares?: string
   pricePerFullShare?: string
-  totalCakeInVault?: string
-  estimatedCakeBountyReward?: string
-  totalPendingCakeHarvest?: string
+  totalLacInVault?: string
+  estimatedLacBountyReward?: string
+  totalPendingLacHarvest?: string
   fees?: VaultFees
   userData?: VaultUser
 }
 
 export interface PoolsState {
   data: Pool[]
-  cakeVault: CakeVault
+  lacVault: LacVault
   userDataLoaded: boolean
 }
 

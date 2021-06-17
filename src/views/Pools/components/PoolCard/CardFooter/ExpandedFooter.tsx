@@ -15,9 +15,9 @@ import {
   Button,
 } from '@pancakeswap/uikit'
 import { BASE_BSC_SCAN_URL, BASE_URL } from 'config'
-import { useBlock, useCakeVault } from 'state/hooks'
+import { useBlock, useLacVault } from 'state/hooks'
 import { Pool } from 'state/types'
-import { getAddress, getCakeVaultAddress } from 'utils/addressHelpers'
+import { getAddress, getLacVaultAddress } from 'utils/addressHelpers'
 import { registerToken } from 'utils/wallet'
 import Balance from 'components/Balance'
 import { getPoolBlockInfo } from 'views/Pools/helpers'
@@ -38,18 +38,18 @@ const ExpandedFooter: React.FC<ExpandedFooterProps> = ({ pool, account }) => {
   const { t } = useTranslation()
   const { currentBlock } = useBlock()
   const {
-    totalCakeInVault,
+    totalLacInVault,
     fees: { performanceFee },
-  } = useCakeVault()
+  } = useLacVault()
 
   const { stakingToken, earningToken, totalStaked, contractAddress, sousId, isAutoVault } = pool
 
   const tokenAddress = earningToken.address ? getAddress(earningToken.address) : ''
   const poolContractAddress = getAddress(contractAddress)
-  const cakeVaultContractAddress = getCakeVaultAddress()
+  const lacVaultContractAddress = getLacVaultAddress()
   const imageSrc = `${BASE_URL}/images/tokens/${earningToken.symbol.toLowerCase()}.png`
   const isMetaMaskInScope = !!(window as WindowChain).ethereum?.isMetaMask
-  const isManualCakePool = sousId === 0
+  const isManualLacPool = sousId === 0
 
   const { shouldShowBlockCountdown, blocksUntilStart, blocksRemaining, hasPoolStarted, blocksToDisplay } =
     getPoolBlockInfo(pool, currentBlock)
@@ -61,11 +61,11 @@ const ExpandedFooter: React.FC<ExpandedFooterProps> = ({ pool, account }) => {
 
   const getTotalStakedBalance = () => {
     if (isAutoVault) {
-      return getBalanceNumber(totalCakeInVault, stakingToken.decimals)
+      return getBalanceNumber(totalLacInVault, stakingToken.decimals)
     }
-    if (isManualCakePool) {
-      const manualCakeTotalMinusAutoVault = new BigNumber(totalStaked).minus(totalCakeInVault)
-      return getBalanceNumber(manualCakeTotalMinusAutoVault, stakingToken.decimals)
+    if (isManualLacPool) {
+      const manualLacTotalMinusAutoVault = new BigNumber(totalStaked).minus(totalLacInVault)
+      return getBalanceNumber(manualLacTotalMinusAutoVault, stakingToken.decimals)
     }
     return getBalanceNumber(totalStaked, stakingToken.decimals)
   }
@@ -126,7 +126,7 @@ const ExpandedFooter: React.FC<ExpandedFooterProps> = ({ pool, account }) => {
           <LinkExternal
             bold={false}
             small
-            href={`${BASE_BSC_SCAN_URL}/address/${isAutoVault ? cakeVaultContractAddress : poolContractAddress}`}
+            href={`${BASE_BSC_SCAN_URL}/address/${isAutoVault ? lacVaultContractAddress : poolContractAddress}`}
           >
             {t('View Contract')}
           </LinkExternal>

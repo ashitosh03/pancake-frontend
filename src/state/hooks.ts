@@ -16,9 +16,9 @@ import {
   fetchFarmsPublicDataAsync,
   fetchPoolsPublicDataAsync,
   fetchPoolsUserDataAsync,
-  fetchCakeVaultPublicData,
-  fetchCakeVaultUserData,
-  fetchCakeVaultFees,
+  fetchLacVaultPublicData,
+  fetchLacVaultUserData,
+  fetchLacVaultFees,
   setBlock,
 } from './actions'
 import { State, Farm, Pool, ProfileState, TeamsState, AchievementState, FarmsState } from './types'
@@ -182,48 +182,48 @@ export const usePoolFromPid = (sousId: number): Pool => {
   return transformPool(pool)
 }
 
-export const useFetchCakeVault = () => {
+export const useFetchLacVault = () => {
   const { account } = useWeb3React()
   const { fastRefresh } = useRefresh()
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(fetchCakeVaultPublicData())
+    dispatch(fetchLacVaultPublicData())
   }, [dispatch, fastRefresh])
 
   useEffect(() => {
-    dispatch(fetchCakeVaultUserData({ account }))
+    dispatch(fetchLacVaultUserData({ account }))
   }, [dispatch, fastRefresh, account])
 
   useEffect(() => {
-    dispatch(fetchCakeVaultFees())
+    dispatch(fetchLacVaultFees())
   }, [dispatch])
 }
 
-export const useCakeVault = () => {
+export const useLacVault = () => {
   const {
     totalShares: totalSharesAsString,
     pricePerFullShare: pricePerFullShareAsString,
-    totalCakeInVault: totalCakeInVaultAsString,
-    estimatedCakeBountyReward: estimatedCakeBountyRewardAsString,
-    totalPendingCakeHarvest: totalPendingCakeHarvestAsString,
+    totalLacInVault: totalLacInVaultAsString,
+    estimatedLacBountyReward: estimatedLacBountyRewardAsString,
+    totalPendingLacHarvest: totalPendingLacHarvestAsString,
     fees: { performanceFee, callFee, withdrawalFee, withdrawalFeePeriod },
     userData: {
       isLoading,
       userShares: userSharesAsString,
-      cakeAtLastUserAction: cakeAtLastUserActionAsString,
+      lacAtLastUserAction: lacAtLastUserActionAsString,
       lastDepositedTime,
       lastUserActionTime,
     },
-  } = useSelector((state: State) => state.pools.cakeVault)
+  } = useSelector((state: State) => state.pools.lacVault)
 
-  const estimatedCakeBountyReward = useMemo(() => {
-    return new BigNumber(estimatedCakeBountyRewardAsString)
-  }, [estimatedCakeBountyRewardAsString])
+  const estimatedLacBountyReward = useMemo(() => {
+    return new BigNumber(estimatedLacBountyRewardAsString)
+  }, [estimatedLacBountyRewardAsString])
 
-  const totalPendingCakeHarvest = useMemo(() => {
-    return new BigNumber(totalPendingCakeHarvestAsString)
-  }, [totalPendingCakeHarvestAsString])
+  const totalPendingLacHarvest = useMemo(() => {
+    return new BigNumber(totalPendingLacHarvestAsString)
+  }, [totalPendingLacHarvestAsString])
 
   const totalShares = useMemo(() => {
     return new BigNumber(totalSharesAsString)
@@ -233,24 +233,24 @@ export const useCakeVault = () => {
     return new BigNumber(pricePerFullShareAsString)
   }, [pricePerFullShareAsString])
 
-  const totalCakeInVault = useMemo(() => {
-    return new BigNumber(totalCakeInVaultAsString)
-  }, [totalCakeInVaultAsString])
+  const totalLacInVault = useMemo(() => {
+    return new BigNumber(totalLacInVaultAsString)
+  }, [totalLacInVaultAsString])
 
   const userShares = useMemo(() => {
     return new BigNumber(userSharesAsString)
   }, [userSharesAsString])
 
-  const cakeAtLastUserAction = useMemo(() => {
-    return new BigNumber(cakeAtLastUserActionAsString)
-  }, [cakeAtLastUserActionAsString])
+  const lacAtLastUserAction = useMemo(() => {
+    return new BigNumber(lacAtLastUserActionAsString)
+  }, [lacAtLastUserActionAsString])
 
   return {
     totalShares,
     pricePerFullShare,
-    totalCakeInVault,
-    estimatedCakeBountyReward,
-    totalPendingCakeHarvest,
+    totalLacInVault,
+    estimatedLacBountyReward,
+    totalPendingLacHarvest,
     fees: {
       performanceFee,
       callFee,
@@ -260,7 +260,7 @@ export const useCakeVault = () => {
     userData: {
       isLoading,
       userShares,
-      cakeAtLastUserAction,
+      lacAtLastUserAction,
       lastDepositedTime,
       lastUserActionTime,
     },
@@ -326,13 +326,13 @@ export const useAchievements = () => {
 }
 
 export const usePriceBnbBusd = (): BigNumber => {
-  const bnbBusdFarm = useFarmFromPid(252)
+  const bnbBusdFarm = useFarmFromPid(2)
   return new BigNumber(bnbBusdFarm.quoteToken.busdPrice)
 }
 
-export const usePriceCakeBusd = (): BigNumber => {
-  const cakeBnbFarm = useFarmFromPid(251)
-  return new BigNumber(cakeBnbFarm.token.busdPrice)
+export const usePriceLacBusd = (): BigNumber => {
+  const lacBnbFarm = useFarmFromPid(1)
+  return new BigNumber(lacBnbFarm.token.busdPrice)
 }
 
 // Block
